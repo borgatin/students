@@ -1,20 +1,21 @@
 package ru.avborg.students.da.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+import java.io.Serializable;
 
-public abstract class DaService<T> {
+public abstract class DaService<T extends Serializable> {
 
-    private EntityManagerFactory entityManagerFactory;
+    private HibernateUtils hibernateUtils;
 
-    DaService() {
-        entityManagerFactory = Persistence.createEntityManagerFactory("ru.avborg.students");
+    @Autowired
+    public void setHibernateUtils(HibernateUtils hibernateUtils) {
+        this.hibernateUtils = hibernateUtils;
     }
 
-
     public void save(T entity) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityManager entityManager = hibernateUtils.getEntityManager();
         try {
             entityManager.getTransaction().begin();
             entityManager.persist(entity);
@@ -25,7 +26,7 @@ public abstract class DaService<T> {
     }
 
     public T get(long id, Class<T> tClass) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityManager entityManager = hibernateUtils.getEntityManager();
         return entityManager.find(tClass, id);
     }
 
