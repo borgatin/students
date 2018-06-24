@@ -5,19 +5,31 @@ apply plugin: 'java'
 apply plugin: 'war'
 apply from: 'https://raw.github.com/akhikhl/gretty/master/pluginScripts/gretty.plugin'
 
-sourceCompatibility = 1.8
+    sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
 }
 
-def springVersion = '4.3.18.RELEASE';
+def mapstructVersion = "1.2.0.Final"
+def springVersion = '4.3.18.RELEASE'
+def hibernateVersion = '5.3.1.Final'
 
 dependencies {
+    //Spring
     compile group: 'org.springframework', name: 'spring-core', version: springVersion
     compile group: 'org.springframework', name: 'spring-web', version: springVersion
     compile group: 'org.springframework', name: 'spring-webmvc', version: springVersion
+    //Hibernate
+    compile group: 'org.hibernate', name: 'hibernate-core', version: hibernateVersion
+    compile group: 'org.hibernate', name: 'hibernate-entitymanager', version: hibernateVersion
+    compile group: 'org.postgresql', name: 'postgresql', version: '42.2.2'
+    //Mapping Framework
+    compile group: 'org.mapstruct', name: 'mapstruct-jdk8', version: mapstructVersion
+    compile group: 'org.mapstruct', name: 'mapstruct-processor', version: mapstructVersion
+    //View framework
     compile group: 'org.glassfish', name: 'javax.faces', version: '2.2.10'
+
 
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
